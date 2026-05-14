@@ -35,3 +35,20 @@ export async function fetchLocationInfo(locationID: string) {
 
     return await response.json();
 }
+
+export async function fetchLocations() {
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { fetchSeasonsV2, fetchLocationInfo } from "../services/locationsService.js";
+import { fetchSeasonsV2, fetchLocationInfo, fetchLocations } from "../services/locationsService.js";
 
 export async function getSeasonsV2(req: Request, res: Response) {
     try {
@@ -11,7 +11,7 @@ export async function getSeasonsV2(req: Request, res: Response) {
         console.error(error);
 
         res.status(500).json({
-            message: "Failed to fetch cards info",
+            message: "Failed to fetch seasons",
         });
     }
 }
@@ -22,7 +22,7 @@ export async function getLocationInfo(req: Request, res: Response) {
 
         if (typeof locationID !== "string") {
             return res.status(400).json({
-                message: "Player tag is required",
+                message: "Location info is required",
             });
         }
 
@@ -34,7 +34,22 @@ export async function getLocationInfo(req: Request, res: Response) {
         console.error(error);
 
         res.status(500).json({
-        message: "Failed to fetch player data",
+            message: "Failed to fetch location info",
         });
     } 
+}
+
+export async function getLocations(req: Request, res: Response) {
+    try {
+        const listLocations = await fetchLocations();
+
+        res.json(listLocations);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch locations",
+        });
+    }
 }
