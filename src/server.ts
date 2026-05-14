@@ -7,6 +7,7 @@ import cardsRoutes from "./routes/cardsRoutes.js"
 import tournamentsRoutes from "./routes/tournamentsRoutes.js"
 import eventsRoutes from "./routes/eventsRoutes.js"
 import globalTournamentRoutes from "./routes/globalTournamentsRoutes.js"
+import leaderboardsRoutes from "./routes/leaderboardsRoutes.js" // TODO: CHECK CRL API STUPIDITY
 
 const app = express();
 const PORT = 5000;
@@ -22,6 +23,8 @@ app.use("/api/cards", cardsRoutes);
 app.use("/api/events", eventsRoutes);
 
 app.use("/api/globaltournaments", globalTournamentRoutes);
+
+app.use("/api/leaderboards", leaderboardsRoutes);
 
 // I'm pretty sure private tournaments aren't a thing anymore in Clash Royale, so this entire router might be deprecated.
 // However, I have included it anyways just in case I am wrong, or Clash Royale adds tournaments back in the future.
