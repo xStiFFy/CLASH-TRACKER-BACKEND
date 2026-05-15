@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { fetchSeasonsV2, fetchLocationInfo, fetchLocations, fetchLocationClanRanking, fetchLocationPlayerRanking } from "../services/locationsService.js";
+import { fetchSeasonsV2, fetchLocationInfo, fetchLocations, fetchLocationClanRanking, fetchLocationPlayerRanking, fetchLocationClanWarsRanking } from "../services/locationsService.js";
 
 export async function getSeasonsV2(req: Request, res: Response) {
     try {
@@ -96,6 +96,29 @@ export async function getLocationPlayerRankings(req: Request, res: Response) {
 
         res.status(500).json({
             message: "Failed to fetch location player ranking",
+        });
+    }
+}
+
+export async function getLocationClanWarsRankings(req: Request, res: Response) {
+    try {
+        const locationID = req.params.location;
+
+        if (typeof locationID !== "string") {
+            return res.status(400).json({
+                message: "Location info is required",
+            });
+        }
+
+        const locationClanWarsRanking = await fetchLocationClanWarsRanking(locationID);
+
+        res.json(locationClanWarsRanking);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch location clan war ranking",
         });
     }
 }

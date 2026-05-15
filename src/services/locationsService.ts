@@ -90,3 +90,22 @@ export async function fetchLocationPlayerRanking(locationID: string) {
 
     return await response.json();
 }
+
+export async function fetchLocationClanWarsRanking(locationID: string) {
+    const encodedLocationID = encodeURIComponent(locationID);
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/clanwars`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
