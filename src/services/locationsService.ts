@@ -52,3 +52,41 @@ export async function fetchLocations() {
 
     return await response.json();
 }
+
+export async function fetchLocationClanRanking(locationID: string) {
+    const encodedLocationID = encodeURIComponent(locationID);
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/clans`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+export async function fetchLocationPlayerRanking(locationID: string) {
+    const encodedLocationID = encodeURIComponent(locationID);
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/players`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
