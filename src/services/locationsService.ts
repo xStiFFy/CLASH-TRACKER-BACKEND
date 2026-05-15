@@ -128,3 +128,20 @@ export async function fetchTopPlayerLeagueSeason(seasonID: string) {
 
     return await response.json();
 }
+
+export async function fetchLeagueSeasons() {
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/global/seasons`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}

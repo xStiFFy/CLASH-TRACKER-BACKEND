@@ -1,5 +1,5 @@
 import express from "express";
-import { getSeasonsV2, getLocationInfo, getLocations, getLocationClanRankings, getLocationPlayerRankings, getLocationClanWarsRankings, getTopPlayerLeagueSeason } from "../controllers/locationsController.js";
+import { getSeasonsV2, getLocationInfo, getLocations, getLocationClanRankings, getLocationPlayerRankings, getLocationClanWarsRankings, getTopPlayerLeagueSeason, getLeagueSeasons } from "../controllers/locationsController.js";
 
 const router = express.Router();
 
@@ -16,5 +16,7 @@ router.get("/:location/rankings/players", getLocationPlayerRankings);
 router.get("/:location/rankings/clanwars", getLocationClanWarsRankings);
 
 router.get("/global/seasons/:season", getTopPlayerLeagueSeason);
+
+router.get("/global/seasons", getLeagueSeasons);
 
 export default router;
