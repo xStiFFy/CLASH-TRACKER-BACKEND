@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { fetchSeasonsV2, fetchLocationInfo, fetchLocations, fetchLocationClanRanking, fetchLocationPlayerRanking } from "../services/locationsService.js";
+import { fetchSeasonsV2, fetchLocationInfo, fetchLocations, fetchLocationClanRanking, fetchLocationPlayerRanking, fetchPathOfLegendsRankings } from "../services/locationsService.js";
+import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
 
 export async function getSeasonsV2(req: Request, res: Response) {
     try {
@@ -90,6 +91,23 @@ export async function getLocationPlayerRankings(req: Request, res: Response) {
         const locationPlayerRanking = await fetchLocationPlayerRanking(locationID);
 
         res.json(locationPlayerRanking);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch location player ranking",
+        });
+    }
+}
+
+export async function getPathOfLegendsRankings(req: Request, res: Response) {
+    try {
+        const options = res.locals.pathOfLegendsOptions as PathOfLegendsOptions;
+
+        const pathOfLegendsRankings = await fetchPathOfLegendsRankings(options);
+
+        res.json(pathOfLegendsRankings);
     }
     catch (error) {
         console.error(error);

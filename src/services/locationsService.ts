@@ -1,4 +1,5 @@
 import { clashRoyaleConfig } from "../config/clashRoyaleConfig.js";
+import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
 
 export async function fetchSeasonsV2() {
     const response = await fetch(
@@ -77,6 +78,37 @@ export async function fetchLocationPlayerRanking(locationID: string) {
 
     const response = await fetch(
         `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/players`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+export async function fetchPathOfLegendsRankings(options: PathOfLegendsOptions) {
+    const encodedSeasonID = encodeURIComponent(options.seasonID);
+
+    const params = new URLSearchParams();
+
+    params.set("limit", String(options.limit));
+    
+    if (options.after) {
+        params.set("after", options.after);
+    }
+
+    if (options.before) {
+        params.set("before", options.before);
+    }
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/global/pathoflegend/${encodedSeasonID}/rankings/players?${params}`,
         {
             headers: {
                 Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
