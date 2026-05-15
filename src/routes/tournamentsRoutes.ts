@@ -1,5 +1,5 @@
 import express from "express";
-import { validateTournamentTag } from "../middleware/validateTournamentTag.js";
+import { validateTournamentTag } from "../middleware/validators/tournaments/validateTournamentTag.js";
 import { getTournamentInfo } from "../controllers/tournamentsController.js";
 
 const router = express.Router();

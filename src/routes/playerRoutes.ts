@@ -1,6 +1,6 @@
 import express from "express";
 import { getPlayerByTag, getUpcomingChests, getBattleLog } from "../controllers/playerController.js";
-import { validatePlayerTag } from "../middleware/validatePlayerTag.js";
+import { validatePlayerTag } from "../middleware/validators/players/validatePlayerTag.js";
 
 
 const router = express.Router();

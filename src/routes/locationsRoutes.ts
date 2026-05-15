@@ -1,5 +1,5 @@
 import express from "express";
-import { validatePathOfLegendsRankings } from "../middleware/validatePathOfLegendsRankings.js";
+import { validatePathOfLegendsRankings } from "../middleware/validators/locations/validatePathOfLegendsRankings.js";
 import { 
     getSeasonsV2, 
     getLocationInfo, 

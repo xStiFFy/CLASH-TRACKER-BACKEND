@@ -1,5 +1,5 @@
 import express from "express";
-import { validateClanTag } from "../middleware/validateClanTag.js";
+import { validateClanTag } from "../middleware/validators/clans/validateClanTag.js";
 import { getClanByTag, getClanWarLog, getClanRiverRaceLog, getClanMembers, getClanCurrentRiverRace } from "../controllers/clanController.js";
 
 

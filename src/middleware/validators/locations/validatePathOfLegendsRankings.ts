@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
+import type { PathOfLegendsOptions } from "../../../types/locationsTypes.js";
 
 export function validatePathOfLegendsRankings(
     req: Request,
