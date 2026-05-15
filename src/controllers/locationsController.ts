@@ -1,6 +1,16 @@
 import type { Request, Response } from "express";
-import { fetchSeasonsV2, fetchLocationInfo, fetchLocations, fetchLocationClanRanking, fetchLocationPlayerRanking, fetchPathOfLegendsRankings } from "../services/locationsService.js";
 import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
+import { 
+    fetchSeasonsV2,
+    fetchLocationInfo, 
+    fetchLocations, 
+    fetchLocationClanRanking, 
+    fetchLocationPlayerRanking, 
+    fetchLocationClanWarsRanking, 
+    fetchTopPlayerLeagueSeason, 
+    fetchLeagueSeasons, 
+    fetchPathOfLegendsRankings 
+} from "../services/locationsService.js";
 
 export async function getSeasonsV2(req: Request, res: Response) {
     try {
@@ -113,7 +123,68 @@ export async function getPathOfLegendsRankings(req: Request, res: Response) {
         console.error(error);
 
         res.status(500).json({
-            message: "Failed to fetch location player ranking",
+            message: "Failed to fetch Path Of Legends rankings",
+        });
+    }
+}
+        
+export async function getLocationClanWarsRankings(req: Request, res: Response) {
+    try {
+        const locationID = req.params.location;
+
+        if (typeof locationID !== "string") {
+            return res.status(400).json({
+                message: "Location info is required",
+            });
+        }
+
+        const locationClanWarsRanking = await fetchLocationClanWarsRanking(locationID);
+
+        res.json(locationClanWarsRanking);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch location clan war ranking",
+        });
+    }
+}
+
+export async function getTopPlayerLeagueSeason(req: Request, res: Response) {
+    try {
+        const seasonID = req.params.season;
+
+        if (typeof seasonID !== "string") {
+            return res.status(400).json({
+                message: "Season id is required",
+            });
+        }
+
+        const topPlayerLeagueSeason = await fetchTopPlayerLeagueSeason(seasonID);
+
+        res.json(topPlayerLeagueSeason);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch top player league season",
+        });
+    }
+}
+
+export async function getLeagueSeasons(req: Request, res: Response) {
+    try {
+        const leagueSeasons = await fetchLeagueSeasons();
+
+        res.json(leagueSeasons);
+    }
+    catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch league seasons",
         });
     }
 }

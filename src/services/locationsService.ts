@@ -122,3 +122,58 @@ export async function fetchPathOfLegendsRankings(options: PathOfLegendsOptions) 
 
     return await response.json();
 }
+
+export async function fetchLocationClanWarsRanking(locationID: string) {
+    const encodedLocationID = encodeURIComponent(locationID);
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/clanwars`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+export async function fetchTopPlayerLeagueSeason(seasonID: string) {
+    const encodedSeasonID = encodeURIComponent(seasonID);
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/global/seasons/${encodedSeasonID}`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+export async function fetchLeagueSeasons() {
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/locations/global/seasons`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
