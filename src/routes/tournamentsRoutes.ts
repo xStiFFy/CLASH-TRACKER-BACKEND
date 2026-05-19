@@ -1,9 +1,13 @@
 import express from "express";
-import { validateTournamentTag } from "../middleware/validators/tournaments/validateTournamentTag.js";
+import { validateTag } from "../middleware/validators/validateTag.js"
 import { getTournamentInfo } from "../controllers/tournamentsController.js";
 
 const router = express.Router();
 
-router.get("/:tournamentTag", validateTournamentTag, getTournamentInfo);
+router.get(
+    "/:tournamentTag", 
+    validateTag("tournamentTag", "tournament"), 
+    getTournamentInfo
+);
 
 export default router;

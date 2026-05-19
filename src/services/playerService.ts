@@ -1,7 +1,8 @@
 import { clashRoyaleConfig } from "../config/clashRoyaleConfig.js";
+import type { TagOptions } from "../types/paginationTypes.js";
 
-export async function fetchPlayerByTag(tag: string) {
-  const encodedTag = encodeURIComponent(tag);
+export async function fetchPlayerByTag(options: TagOptions) {
+  const encodedTag = encodeURIComponent(options.tag);
 
   const response = await fetch(
     `${clashRoyaleConfig.baseUrl}/players/${encodedTag}`,
@@ -19,8 +20,8 @@ export async function fetchPlayerByTag(tag: string) {
   return await response.json();
 }
 
-export async function fetchUpcomingChests(tag: string) {
-  const encodedTag = encodeURIComponent(tag);
+export async function fetchUpcomingChests(options: TagOptions) {
+  const encodedTag = encodeURIComponent(options.tag);
 
   const response = await fetch(
     `${clashRoyaleConfig.baseUrl}/players/${encodedTag}/upcomingchests`,
@@ -40,8 +41,8 @@ export async function fetchUpcomingChests(tag: string) {
   return await response.json();
 }
 
-export async function fetchBattleLog(tag: string) {
-  const encodedTag = encodeURIComponent(tag);
+export async function fetchBattleLog(options: TagOptions) {
+  const encodedTag = encodeURIComponent(options.tag);
 
   const response = await fetch(
     `${clashRoyaleConfig.baseUrl}/players/${encodedTag}/battlelog`,

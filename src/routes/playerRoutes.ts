@@ -1,14 +1,26 @@
 import express from "express";
 import { getPlayerByTag, getUpcomingChests, getBattleLog } from "../controllers/playerController.js";
-import { validatePlayerTag } from "../middleware/validators/players/validatePlayerTag.js";
+import { validateTag } from "../middleware/validators/validateTag.js";
 
 
 const router = express.Router();
 
-router.get("/:tag", validatePlayerTag, getPlayerByTag);
+router.get(
+    "/:tag", 
+    validateTag("tag", "player"), 
+    getPlayerByTag
+);
 
-router.get("/:tag/upcomingchests", validatePlayerTag, getUpcomingChests);
+router.get(
+    "/:tag/upcomingchests", 
+    validateTag("tag", "player"), 
+    getUpcomingChests
+);
 
-router.get("/:tag/battlelog", validatePlayerTag, getBattleLog);
+router.get(
+    "/:tag/battlelog", 
+    validateTag("tag", "player"), 
+    getBattleLog
+);
 
 export default router;

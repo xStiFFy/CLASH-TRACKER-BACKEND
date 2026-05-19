@@ -1,6 +1,8 @@
 import { clashRoyaleConfig } from "../config/clashRoyaleConfig.js";
-import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
+import type { LocationOptions, LocationPaginationOptions, SeasonPaginationOptions } from "../types/paginationTypes.js";
 
+// NOTE: This service corresponds to a controller that will no longer be used. Additionally, this CR API endpoint is just totally useless.
+/*
 export async function fetchSeasonsV2() {
     const response = await fetch(
         `${clashRoyaleConfig.baseUrl}/locations/global/seasonsV2`,
@@ -17,9 +19,10 @@ export async function fetchSeasonsV2() {
 
     return await response.json();
 }
+*/
 
-export async function fetchLocationInfo(locationID: string) {
-    const encodedLocationID = encodeURIComponent(locationID);
+export async function fetchLocationInfo(options: LocationOptions) {
+    const encodedLocationID = encodeURIComponent(options.locationID);
 
     const response = await fetch(
         `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}`,
@@ -54,11 +57,23 @@ export async function fetchLocations() {
     return await response.json();
 }
 
-export async function fetchLocationClanRanking(locationID: string) {
-    const encodedLocationID = encodeURIComponent(locationID);
+export async function fetchLocationClanRanking(options: LocationPaginationOptions) {
+    const encodedLocationID = encodeURIComponent(options.locationID);
+
+    const params = new URLSearchParams();
+
+    params.set("limit", String(options.limit));
+    
+    if (options.after) {
+        params.set("after", options.after);
+    }
+
+    if (options.before) {
+        params.set("before", options.before);
+    }
 
     const response = await fetch(
-        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/clans`,
+        `${clashRoyaleConfig.baseUrl}/locations/${encodedLocationID}/rankings/clans?${params}`,
         {
             headers: {
                 Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
@@ -73,6 +88,8 @@ export async function fetchLocationClanRanking(locationID: string) {
     return await response.json();
 }
 
+// NOTE: This service contacts an endpoint that is deactivated and will no longer function.
+/*
 export async function fetchLocationPlayerRanking(locationID: string) {
     const encodedLocationID = encodeURIComponent(locationID);
 
@@ -91,8 +108,9 @@ export async function fetchLocationPlayerRanking(locationID: string) {
 
     return await response.json();
 }
+*/
 
-export async function fetchPathOfLegendsRankings(options: PathOfLegendsOptions) {
+export async function fetchPathOfLegendsRankings(options: SeasonPaginationOptions) {
     const encodedSeasonID = encodeURIComponent(options.seasonID);
 
     const params = new URLSearchParams();
@@ -123,6 +141,8 @@ export async function fetchPathOfLegendsRankings(options: PathOfLegendsOptions) 
     return await response.json();
 }
 
+// NOTE: This service corresponds to a controller that will no longer be called. Regardless, the code will remain here for the time being.
+/*
 export async function fetchLocationClanWarsRanking(locationID: string) {
     const encodedLocationID = encodeURIComponent(locationID);
 
@@ -141,7 +161,10 @@ export async function fetchLocationClanWarsRanking(locationID: string) {
 
     return await response.json();
 }
+*/
 
+// NOTE: This service contacted a totally useless endpoint so it is now removed.
+/*
 export async function fetchTopPlayerLeagueSeason(seasonID: string) {
     const encodedSeasonID = encodeURIComponent(seasonID);
 
@@ -160,6 +183,7 @@ export async function fetchTopPlayerLeagueSeason(seasonID: string) {
 
     return await response.json();
 }
+*/
 
 export async function fetchLeagueSeasons() {
     const response = await fetch(

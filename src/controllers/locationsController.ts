@@ -1,17 +1,20 @@
 import type { Request, Response } from "express";
-import type { PathOfLegendsOptions } from "../types/locationsTypes.js";
+import type { LocationPaginationOptions, SeasonPaginationOptions } from "../types/paginationTypes.js";
 import { 
-    fetchSeasonsV2,
+    // fetchSeasonsV2,
     fetchLocationInfo, 
     fetchLocations, 
     fetchLocationClanRanking, 
-    fetchLocationPlayerRanking, 
-    fetchLocationClanWarsRanking, 
-    fetchTopPlayerLeagueSeason, 
+    // fetchLocationPlayerRanking, 
+    // fetchLocationClanWarsRanking, 
+    // fetchTopPlayerLeagueSeason, 
     fetchLeagueSeasons, 
     fetchPathOfLegendsRankings 
 } from "../services/locationsService.js";
 
+
+// NOTE: This controller is for a route that has been removed for the time being.
+/*
 export async function getSeasonsV2(req: Request, res: Response) {
     try {
         const seasonsV2 = await fetchSeasonsV2();
@@ -26,18 +29,13 @@ export async function getSeasonsV2(req: Request, res: Response) {
         });
     }
 }
+*/
 
 export async function getLocationInfo(req: Request, res: Response) {
     try {
-        const locationID = req.params.location;
+        const options = res.locals.locationOptions;
 
-        if (typeof locationID !== "string") {
-            return res.status(400).json({
-                message: "Location info is required",
-            });
-        }
-
-        const locationInfo = await fetchLocationInfo(locationID);
+        const locationInfo = await fetchLocationInfo(options);
 
         res.json(locationInfo);
     }
@@ -67,15 +65,12 @@ export async function getLocations(req: Request, res: Response) {
 
 export async function getLocationClanRankings(req: Request, res: Response) {
     try {
-        const locationID = req.params.location;
+        const options = {
+            ...res.locals.locationOptions,
+            ...res.locals.paginationOptions
+        } as LocationPaginationOptions
 
-        if (typeof locationID !== "string") {
-            return res.status(400).json({
-                message: "Location info is required",
-            });
-        }
-
-        const locationClanRanking = await fetchLocationClanRanking(locationID);
+        const locationClanRanking = await fetchLocationClanRanking(options);
 
         res.json(locationClanRanking);
     }
@@ -88,6 +83,8 @@ export async function getLocationClanRankings(req: Request, res: Response) {
     }
 }
 
+// NOTE: This function is for an obsolete endpoint.
+/*
 export async function getLocationPlayerRankings(req: Request, res: Response) {
     try {
         const locationID = req.params.location;
@@ -110,10 +107,14 @@ export async function getLocationPlayerRankings(req: Request, res: Response) {
         });
     }
 }
+*/
 
 export async function getPathOfLegendsRankings(req: Request, res: Response) {
     try {
-        const options = res.locals.pathOfLegendsOptions as PathOfLegendsOptions;
+        const options = {
+            ...res.locals.seasonOptions,
+            ...res.locals.paginationOptions,
+        } as SeasonPaginationOptions;
 
         const pathOfLegendsRankings = await fetchPathOfLegendsRankings(options);
 
@@ -127,7 +128,9 @@ export async function getPathOfLegendsRankings(req: Request, res: Response) {
         });
     }
 }
-        
+     
+// NOTE: This controller is for a route that has been removed for the time being.
+/*
 export async function getLocationClanWarsRankings(req: Request, res: Response) {
     try {
         const locationID = req.params.location;
@@ -150,7 +153,10 @@ export async function getLocationClanWarsRankings(req: Request, res: Response) {
         });
     }
 }
+*/
 
+// NOTE: This controller is for a route that is completely useless and got removed.
+/*
 export async function getTopPlayerLeagueSeason(req: Request, res: Response) {
     try {
         const seasonID = req.params.season;
@@ -173,6 +179,7 @@ export async function getTopPlayerLeagueSeason(req: Request, res: Response) {
         });
     }
 }
+*/
 
 export async function getLeagueSeasons(req: Request, res: Response) {
     try {

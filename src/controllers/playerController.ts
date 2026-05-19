@@ -1,20 +1,16 @@
 import type { Request, Response } from "express";
 import { fetchPlayerByTag, fetchUpcomingChests, fetchBattleLog } from "../services/playerService.js";
+import type { TagOptions } from "../types/paginationTypes.js";
 
 export async function getPlayerByTag(req: Request, res: Response) {
   try {
-    const tag = req.params.tag;
+    const options = res.locals.tagOptions as TagOptions;
 
-    if (typeof tag !== "string") {
-      return res.status(400).json({
-        message: "Player tag is required",
-      });
-    }
-
-    const playerData = await fetchPlayerByTag(tag);
+    const playerData = await fetchPlayerByTag(options);
 
     res.json(playerData);
-  } catch (error) {
+  } 
+  catch (error) {
     console.error(error);
 
     res.status(500).json({
@@ -25,18 +21,13 @@ export async function getPlayerByTag(req: Request, res: Response) {
 
 export async function getUpcomingChests(req: Request, res: Response) {
   try {
-    const tag = req.params.tag;
+    const options = res.locals.tagOptions as TagOptions;
 
-    if (typeof tag !== "string") {
-      return res.status(400).json({
-        message: "Player tag is required",
-      });
-    }
-
-    const chestData = await fetchUpcomingChests(tag);
+    const chestData = await fetchUpcomingChests(options);
 
     res.json(chestData);
-  } catch (error) {
+  } 
+  catch (error) {
     console.error(error);
 
     res.status(500).json({
@@ -47,15 +38,9 @@ export async function getUpcomingChests(req: Request, res: Response) {
 
 export async function getBattleLog(req: Request, res: Response) {
   try {
-    const tag = req.params.tag;
+    const options = res.locals.tagOptions as TagOptions;
 
-    if (typeof tag !== "string") {
-      return res.status(400).json({
-        message: "Player tag is required",
-      });
-    }
-
-    const battleData = await fetchBattleLog(tag);
+    const battleData = await fetchBattleLog(options);
 
     res.json(battleData);
   }

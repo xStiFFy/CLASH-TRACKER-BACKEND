@@ -1,7 +1,8 @@
 import { clashRoyaleConfig } from "../config/clashRoyaleConfig.js";
+import type { TagOptions, TaggedPaginationOptions } from "../types/paginationTypes.js";
 
-export async function fetchClanByTag(clanTag: string) {
-    const encodedClanTag = encodeURIComponent(clanTag);
+export async function fetchClanByTag(options: TagOptions) {
+    const encodedClanTag = encodeURIComponent(options.tag);
 
     const response = await fetch(
         `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}`,
@@ -22,7 +23,7 @@ export async function fetchClanByTag(clanTag: string) {
 /*
 This fetch function will always return 404 because the /warlog enpoint on Clash Royale's API has been disabled.
 It was for the old Clan Wars 1, but has since been replaced with the Clan Wars 2 endpoint /riverracelog.
-*/
+
 export async function fetchClanWarLog(clanTag: string) {
     const encodedClanTag = encodeURIComponent(clanTag);
 
@@ -41,12 +42,56 @@ export async function fetchClanWarLog(clanTag: string) {
 
     return await response.json();
 }
+*/
 
-export async function fetchRiverRaceLog(clanTag: string) {
-    const encodedClanTag = encodeURIComponent(clanTag);
+export async function fetchRiverRaceLog(options: TaggedPaginationOptions) {
+    const encodedClanTag = encodeURIComponent(options.tag);
+
+    const params = new URLSearchParams();
+
+    params.set("limit", options.limit.toString());
+
+    if (options.after !== undefined) {
+        params.set("after", options.after);
+    }
+
+    if (options.before !== undefined) {
+        params.set("before", options.before);
+    }
 
     const response = await fetch(
-        `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}/riverracelog`,
+        `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}/riverracelog?${params.toString()}`,
+        {
+            headers: {
+                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Clash Royale API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+export async function fetchClanMembers(options: TaggedPaginationOptions) {
+    const encodedClanTag = encodeURIComponent(options.tag);
+
+    const params = new URLSearchParams();
+
+    params.set("limit", options.limit.toString());
+
+    if (options.after !== undefined) {
+        params.set("after", options.after);
+    }
+
+    if (options.before !== undefined) {
+        params.set("before", options.before);
+    }
+
+    const response = await fetch(
+        `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}/members?${params.toString()}`,
         {
             headers: {
                 Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
@@ -61,27 +106,8 @@ export async function fetchRiverRaceLog(clanTag: string) {
     return await response.json();
 }
 
-export async function fetchClanMembers(clanTag: string) {
-    const encodedClanTag = encodeURIComponent(clanTag);
-
-    const response = await fetch(
-        `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}/members`,
-        {
-            headers: {
-                Authorization: `Bearer ${clashRoyaleConfig.apiKey}`,
-            },
-        }
-    )
-
-    if (!response.ok) {
-        throw new Error(`Clash Royale API error: ${response.status}`);
-    }
-
-    return await response.json();
-}
-
-export async function fetchCurrentRiverRace(clanTag: string) {
-    const encodedClanTag = encodeURIComponent(clanTag);
+export async function fetchCurrentRiverRace(options: TagOptions) {
+    const encodedClanTag = encodeURIComponent(options.tag);
 
     const response = await fetch(
         `${clashRoyaleConfig.baseUrl}/clans/${encodedClanTag}/currentriverrace`,

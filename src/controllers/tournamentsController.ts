@@ -1,25 +1,20 @@
 import type { Request, Response } from "express";
 import { fetchTournamentInfo } from "../services/tournamentsService.js";
+import type { TagOptions } from "../types/paginationTypes.js";
 
 export async function getTournamentInfo(req: Request, res: Response) {
     try {
-        const tournamentTag = req.params.tournamentTag;
+        const options = res.locals.tagOptions as TagOptions;
 
-        if (typeof tournamentTag !== "string") {
-            return res.status(400).json({
-                message: "Player tag is required",
-            });
-        }
-
-        const tournamentInfo = await fetchTournamentInfo(tournamentTag);
+        const tournamentInfo = await fetchTournamentInfo(options);
 
         res.json(tournamentInfo);
     }
     catch (error) {
-    console.error(error);
+        console.error(error);
 
-    res.status(500).json({
-      message: "Failed to fetch battle log"
-    })
-  }
+        res.status(500).json({
+            message: "Failed to fetch tournament info"
+        })
+    }
 }

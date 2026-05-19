@@ -25,12 +25,16 @@ app.use("/api/events", eventsRoutes);
 
 app.use("/api/globaltournaments", globalTournamentRoutes);
 
+/* NOTE: The purpose of this CR API endpoint is not clear and the data that these endpoints return will likely provide
+         no value to the application as a whole. For the time being I will leave them though to avoid annoying refactors.
+*/
 app.use("/api/leaderboards", leaderboardsRoutes);
 
 app.use("/api/locations", locationsRoutes);
 
 // I'm pretty sure private tournaments aren't a thing anymore in Clash Royale, so this entire router might be deprecated.
 // However, I have included it anyways just in case I am wrong, or Clash Royale adds tournaments back in the future.
+// NOTE: I will definitely be removing this endpoint in the future as it provides no value to the greater application.
 app.use("/api/tournaments", tournamentsRoutes);
 
 app.get("/api/health", (req, res) => {
